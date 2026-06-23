@@ -264,19 +264,19 @@ async function startCalibration() {
   // Phase 1: capture neutral center
   setStep("🧘", "Sit tall, look straight ahead, breathe…");
   let samples = [];
-  await collect(1600, () => { if (faceVisible) samples.push(rollDeg); }, fill, 0, 50);
+  await collectFor(1600, () => { if (faceVisible) samples.push(rollDeg); }, fill, 0, 50);
   calibCenter = samples.length ? median(samples) : 0;
 
   // Phase 2: playful range check
   setStep("🙆", "Now gently tilt one ear toward your shoulder…");
-  await collect(1400, () => {}, fill, 50, 100);
+  await collectFor(1400, () => {}, fill, 50, 100);
 
   setStep("🌟", "Beautiful. Let's play!");
   await wait(600);
   startRound();
 }
 
-function collect(ms, onTick, fill, from, to) {
+function collectFor(ms, onTick, fill, from, to) {
   return new Promise((res) => {
     const start = performance.now();
     const id = setInterval(() => {
