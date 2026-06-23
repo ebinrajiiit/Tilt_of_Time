@@ -43,8 +43,9 @@ try:
 except Exception:
     _HAVE_MP = False
 
-MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                          "vendor", "face_landmarker.task")
+_HERE = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(_HERE, "vendor", "face_landmarker.task")
+LOGO_PATH = os.path.join(_HERE, "assets", "factsh_white.png")
 
 # ---------------- Config ----------------
 W, H = 1280, 720
@@ -174,6 +175,18 @@ def put_text(img, text, org, scale, color, thick=2, center=False, glow=True):
     if glow:
         cv2.putText(img, text, org, font, scale, (0, 0, 0), thick + 4, cv2.LINE_AA)
     cv2.putText(img, text, org, font, scale, color, thick, cv2.LINE_AA)
+
+
+def load_logo(path, height):
+    """Load the FACTS-H logo, trim its transparent border, return a BGRA sprite."""
+    im = Image.open(path).convert("RGBA")
+    bbox = im.getbbox()
+    if bbox:
+        im = im.crop(bbox)
+    w = max(1, int(im.width * height / im.height))
+    im = im.resize((w, height), Image.LANCZOS)
+    arr = np.array(im)                     # RGBA
+    return arr[:, :, [2, 1, 0, 3]].copy()  # -> BGRA for our blit()
 
 
 def make_background():
@@ -750,6 +763,12 @@ class Game:
         self.sprite_sets = [build_sprites(PALETTES[0]), build_sprites(PALETTES[1])]
         self.snd = Sound()
         self.stats = SessionStats(".tot_session.json")
+        try:
+            self.logo_big = load_logo(LOGO_PATH, 128)
+            self.logo_small = load_logo(LOGO_PATH, 52)
+        except Exception as e:
+            print("FACTS-H logo not loaded:", e)
+            self.logo_big = self.logo_small = None
         self.muted = False
         self.cd_last_beep = None
         self.best = self._load_best()
@@ -1040,6 +1059,22 @@ def draw_title(img, g):
     put_text(img, sub, (W // 2, int(H * 0.85)), 0.7, GOLD, 1, center=True)
     put_text(img, "S session stats   F fullscreen   M mute   ESC quit",
              (W // 2, int(H * 0.93)), 0.6, (160, 160, 170), 1, center=True)
+
+
+def draw_logo(img, g):
+    """FACTS-H Lab brand mark — large top-left on menus, small bottom-left in play."""
+    if g.state in ("title", "demo", "stats", "over", "round_over"):
+        spr = g.logo_big
+        if spr is not None:
+            sh, sw = spr.shape[:2]
+            blit(img, spr, 26 + sw // 2, 26 + sh // 2)
+            put_text(img, "FACTS-H Lab", (26 + sw // 2, 26 + sh + 14),
+                     0.5, (200, 200, 210), 1, center=True, glow=False)
+    elif g.state in ("play", "countdown"):
+        spr = g.logo_small
+        if spr is not None:
+            sh, sw = spr.shape[:2]
+            blit(img, spr, 16 + sw // 2, H - 80)  # sits just above the tilt meter
 
 
 def draw_stats(img, g):
@@ -1334,6 +1369,7 @@ def main():
         elif g.state == "over":
             draw_over(img, g)
 
+        draw_logo(img, g)
         cv2.imshow(WIN, img)
 
         k = cv2.waitKey(1) & 0xFF
