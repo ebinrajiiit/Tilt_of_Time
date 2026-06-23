@@ -1,7 +1,11 @@
 # 🏮 Tilt of Time
 
+![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)
+![Python](https://img.shields.io/badge/Python-3.9–3.13-blue.svg)
+![Offline](https://img.shields.io/badge/Runs-fully%20offline-success.svg)
+
 A **webcam neck-mobility game** for a culture × humanities × technology
-conference stall.
+conference stall — a **FACTS-H Lab** installation.
 
 Tilt your head left and right (gentle lateral neck flexion — a real mobility
 exercise) to glide a glowing lantern and **catch the falling icons of human
@@ -11,6 +15,12 @@ so a queue of players keeps moving.
 
 It uses your webcam with Google's **MediaPipe** face tracking and runs **fully
 offline** — no internet, no browser, no servers.
+
+## Screenshots
+
+| Title | Duel (best-of-3) | Session stats |
+|:---:|:---:|:---:|
+| ![Title screen](screenshots/title.png) | ![Two-player duel](screenshots/duel.png) | ![Session stats](screenshots/stats.png) |
 
 ---
 
@@ -147,3 +157,10 @@ anything hurts, and never force range. 🌱
 ## Requirements
 - macOS / Linux / Windows with a webcam and Python 3.9–3.13.
 - Internet **only** for the one-time dependency install; the game itself runs offline.
+
+## Credits & license
+Built as a **FACTS-H Lab** installation for a culture × humanities × technology
+conference. Face tracking by Google [MediaPipe](https://ai.google.dev/edge/mediapipe);
+graphics via OpenCV; all sound synthesized at runtime (no audio files).
+
+Released under the [MIT License](LICENSE).
