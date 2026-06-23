@@ -6,7 +6,9 @@
 ![Offline](https://img.shields.io/badge/Runs-fully%20offline-success.svg)
 
 > **[▶ Play the live demo](https://ebinrajiiit.github.io/Tilt_of_Time/)** (browser edition — allow camera access).
-> The **desktop app** (below) is the full experience: 2-player duel, best-of-3, sound, and session stats.
+> The browser edition now has **full feature parity** with the desktop app: solo & 2-player duel,
+> best-of-3, countdown, Web-Audio sound + ambient pad, attract-mode demo, and session stats.
+> The desktop app (below) is handy when you want a dedicated window with no browser chrome.
 
 A **webcam neck-mobility game** for a culture × humanities × technology
 conference stall — a **FACTS-H Lab** installation.
@@ -149,7 +151,8 @@ end of the day: total tilts = how much collective neck mobility the stall did. �
 - `play.sh` — one-command launcher (sets up the venv on first run)
 - `requirements.txt` — Python dependencies
 - `vendor/face_landmarker.task` — the offline face model
-- `index.html` / `style.css` / `game.js` / `serve.py` — an earlier browser version (optional)
+- `index.html` / `style.css` / `game.js` — the **browser edition** (full parity; hosted as the live demo)
+- `serve.py` / `start.sh` — optional local server for running the browser edition offline
 
 ---
 

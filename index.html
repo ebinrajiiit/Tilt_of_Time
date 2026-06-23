@@ -2,145 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tilt of Time — Neck Motion x Culture</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tilt of Time — a FACTS-H Lab installation</title>
   <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🏮&lt;/text&gt;&lt;/svg&gt;" />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="preconnect" href="https://storage.googleapis.com" />
+  <link rel="preload" as="image" href="assets/factsh_white.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Live game canvas -->
-  <canvas id="game"></canvas>
+  <div id="stage">
+    <canvas id="game" width="1280" height="720"></canvas>
+  </div>
 
-  <!-- Webcam (hidden source) + tracking preview -->
   <video id="cam" autoplay playsinline muted></video>
-  <div id="preview">
-    <canvas id="previewCanvas"></canvas>
-    <span class="preview-label">YOU</span>
-  </div>
 
-  <!-- HUD -->
-  <div id="hud" class="hidden">
-    <div class="hud-top">
-      <div class="hud-box">
-        <span class="hud-label">SCORE</span>
-        <span id="score" class="hud-value">0</span>
-      </div>
-      <div class="hud-box hud-timer">
-        <span class="hud-label">TIME</span>
-        <span id="time" class="hud-value">60</span>
-      </div>
-      <div class="hud-box">
-        <span class="hud-label">COMBO</span>
-        <span id="combo" class="hud-value">x1</span>
-      </div>
-    </div>
-
-    <!-- Neck tilt meter -->
-    <div id="tiltMeter">
-      <div class="tilt-track">
-        <div class="tilt-zone left"></div>
-        <div class="tilt-zone center"></div>
-        <div class="tilt-zone right"></div>
-        <div id="tiltNeedle"></div>
-      </div>
-      <div class="tilt-caption">◄ tilt your head ►</div>
-    </div>
-  </div>
-
-  <!-- Toast for collected-item names -->
-  <div id="toast"></div>
-
-  <!-- ===================== SCREENS ===================== -->
-
-  <!-- Loading -->
-  <div id="loading" class="screen">
-    <div class="loader-ring"></div>
+  <!-- Pre-game overlays (the in-game screens are drawn on the canvas) -->
+  <div id="loading" class="overlay">
+    <div class="ring"></div>
     <p id="loadingText">Awakening the camera spirits…</p>
   </div>
 
-  <!-- Start / Title -->
-  <div id="startScreen" class="screen hidden">
-    <div class="title-wrap">
-      <h1 class="title">Tilt of Time</h1>
-      <p class="subtitle">Bend your neck. Gather the threads of human culture.</p>
-    </div>
-
-    <div class="howto">
-      <div class="howto-item">
-        <span class="howto-emoji">🙆</span>
-        <span><b>Tilt your head</b> left &amp; right<br/>to glide the lantern</span>
-      </div>
-      <div class="howto-item">
-        <span class="howto-emoji">🪔</span>
-        <span><b>Catch</b> the icons of art,<br/>science &amp; philosophy</span>
-      </div>
-      <div class="howto-item">
-        <span class="howto-emoji">🌀</span>
-        <span><b>Dodge</b> the glitch-voids<br/>that scramble culture</span>
-      </div>
-    </div>
-
-    <button id="startBtn" class="big-btn">Begin the Ritual ▸</button>
-    <p class="hint">A gentle neck-mobility game. Move slowly &amp; smoothly — your spine will thank you.</p>
-    <p id="bestLine" class="best-line"></p>
+  <div id="error" class="overlay hidden">
+    <h2 id="errTitle">Could not start</h2>
+    <p id="errText"></p>
+    <p class="err-hint">Needs a webcam and a secure context (HTTPS or localhost) in Chrome/Edge.
+      Allow camera access, then retry.</p>
+    <button id="retryBtn" class="btn">Retry ▸</button>
   </div>
 
-  <!-- Calibration -->
-  <div id="calibScreen" class="screen hidden">
-    <h2 class="calib-title">Find your range</h2>
-    <p id="calibStep" class="calib-step">Sit tall and look straight ahead…</p>
-    <div class="calib-face">
-      <div id="calibIcon">🧘</div>
-    </div>
-    <div class="calib-bar"><div id="calibFill"></div></div>
-  </div>
+  <button id="soundBtn" class="corner-btn" title="Mute / unmute (M)">🔊</button>
 
-  <!-- Game over -->
-  <div id="overScreen" class="screen hidden">
-    <h2 class="over-title">Round Complete</h2>
-    <div class="over-score">
-      <span id="finalScore">0</span>
-      <span class="over-score-label">threads woven</span>
-    </div>
-    <div class="over-stats">
-      <div class="stat"><span id="statRange" class="stat-num">0°</span><span class="stat-lbl">neck range</span></div>
-      <div class="stat"><span id="statBest" class="stat-num">0</span><span class="stat-lbl">best combo</span></div>
-      <div class="stat"><span id="statTilts" class="stat-num">0</span><span class="stat-lbl">full tilts</span></div>
-    </div>
-    <p id="overMessage" class="over-message"></p>
-    <button id="againBtn" class="big-btn">Play Again ▸</button>
-  </div>
-
-  <!-- Error -->
-  <div id="errorScreen" class="screen hidden">
-    <h2 class="err-title">Camera unavailable</h2>
-    <p id="errorText" class="err-text"></p>
-    <p class="err-hint">This game needs a webcam and a secure context. Run it from <code>http://localhost</code> (see README) and allow camera access.</p>
-    <button id="retryBtn" class="big-btn">Retry ▸</button>
-  </div>
-
-  <button id="soundBtn" class="corner-btn" title="Toggle sound">🔊</button>
-
-  <!-- Watchdog: if the module never starts (CDN blocked / JS error), say so
-       instead of hanging on the loading spinner forever. game.js clears it. -->
+  <!-- Watchdog: surface a clear message if the engine never finishes loading -->
   <script>
     window.__totWatchdog = setTimeout(function () {
-      var loading = document.getElementById("loading");
-      var err = document.getElementById("errorScreen");
-      var txt = document.getElementById("errorText");
-      var title = err && err.querySelector(".err-title");
-      if (loading && !loading.classList.contains("hidden")) {
-        if (txt) txt.textContent = "The face-tracking engine didn't finish loading. Make sure the vendor/ folder (model + wasm) sits next to index.html, then reload. Use Chrome or Edge.";
-        if (title) title.textContent = "Could not start";
-        if (loading) loading.classList.add("hidden");
-        if (err) err.classList.remove("hidden");
+      var l = document.getElementById('loading'), e = document.getElementById('error');
+      if (l && !l.classList.contains('hidden')) {
+        document.getElementById('errText').textContent =
+          "The face-tracking engine didn't finish loading. Check your connection/firewall and reload, and use Chrome or Edge.";
+        l.classList.add('hidden'); e.classList.remove('hidden');
       }
-    }, 15000);
-    window.addEventListener("error", function (e) {
-      console.error("Page error:", e.message);
-    });
+    }, 20000);
   </script>
   <script type="module" src="game.js"></script>
 </body>
