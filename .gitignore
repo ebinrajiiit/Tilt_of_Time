@@ -1,0 +1,20 @@
+# Python virtual environment (recreated by play.sh on first run)
+.venv/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Runtime state (per-machine, not source)
+.tot_best
+.tot_session.json
+
+# Local tooling / editor
+.claude/
+.vscode/
+.idea/
+
+# OS cruft
+.DS_Store
+Thumbs.db
