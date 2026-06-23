@@ -1,8 +1,12 @@
 # 🏮 Tilt of Time
 
-![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)
+[![▶ Live Demo](https://img.shields.io/badge/▶_Live_Demo-play_in_browser-ff4d9d.svg)](https://ebinrajiiit.github.io/Tilt_of_Time/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/Python-3.9–3.13-blue.svg)
 ![Offline](https://img.shields.io/badge/Runs-fully%20offline-success.svg)
+
+> **[▶ Play the live demo](https://ebinrajiiit.github.io/Tilt_of_Time/)** (browser edition — allow camera access).
+> The **desktop app** (below) is the full experience: 2-player duel, best-of-3, sound, and session stats.
 
 A **webcam neck-mobility game** for a culture × humanities × technology
 conference stall — a **FACTS-H Lab** installation.
