@@ -52,7 +52,7 @@ W, H = 1280, 720
 ROUND_SECONDS = 60
 FULL_TILT_DEG = 20.0       # head roll that pushes the lantern to the edge
 SMOOTH = 0.30              # tilt smoothing (higher = snappier)
-TILT_SIGN = 1              # flip to -1 if left/right feels reversed
+TILT_SIGN = -1             # -1 = mirror-natural steering (tilt right -> lantern right)
 WINS_NEEDED = 2            # duel is best-of-3: first to 2 round wins
 WIN = "Tilt of Time"
 

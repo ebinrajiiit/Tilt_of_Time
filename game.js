@@ -17,7 +17,7 @@ const W = 1280, H = 720;
 const ROUND_SECONDS = 60;
 const FULL_TILT_DEG = 20;
 const SMOOTH = 0.30;
-const TILT_SIGN = 1;          // flip to -1 if left/right feels reversed
+const TILT_SIGN = -1;         // -1 = mirror-natural steering (tilt right -> lantern right)
 const WINS_NEEDED = 2;        // duel is best-of-3
 
 const GOOD = [
